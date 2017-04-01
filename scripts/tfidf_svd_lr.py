@@ -57,7 +57,7 @@ if __name__ == '__main__':
     print_time(T1, 'Data Loaded')
 
     # Build the tf-idf transformer from the list of all questions
-    tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
+    tfidf = TfidfVectorizer(stop_words='english', max_features=10000)
     tfidf_transformer = tfidf.fit(all_questions)
 
     print_time(T1, 'tf-idf transformer constructed')

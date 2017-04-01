@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier, VotingClassifier
 import time
 
 
@@ -111,14 +112,21 @@ if __name__ == '__main__':
     # Extract targets from training set
     Y = train_df['is_duplicate'].values
 
-    # Train a logistic regression classifier
-    clf = LogisticRegression().fit(X, Y)
+    # Train the classifiers
+    lr_clf = LogisticRegression()
+    rf_clf = RandomForestClassifier(n_estimators=25)
+    et_clf = ExtraTreesClassifier(n_estimators=25)
+
+    vclf = VotingClassifier(
+        [('lr', lr_clf), ('rf', rf_clf), ('et', et_clf)],
+        voting='soft'
+    ).fit(X, Y)
 
     print_time(T1, 'classifier training complete')
 
     # Form predictions for test data and return the probability that it belongs
     # to each class, as specified by the kaggle guidelines for this contest
-    predictions = clf.predict_proba(test_X)
+    predictions = vclf.predict_proba(test_X)
 
     # Create new dataframe to store results and export to csv
     submission = pd.DataFrame()

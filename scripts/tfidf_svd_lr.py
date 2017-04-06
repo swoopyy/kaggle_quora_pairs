@@ -31,8 +31,8 @@ if __name__ == '__main__':
     print_time(T1, 'Starting Script')
 
     # Load in the dataset
-    train_df = pd.read_csv("../data/train.csv", low_memory=False)
-    test_df = pd.read_csv("../data/test.csv", low_memory=False)
+    train_df = pd.read_csv("../cleaned_data/train_v0.csv", low_memory=False)
+    test_df = pd.read_csv("../cleaned_data/test_v0.csv", low_memory=False)
 
     # NOTE: Set to True if debugging
     if False:
